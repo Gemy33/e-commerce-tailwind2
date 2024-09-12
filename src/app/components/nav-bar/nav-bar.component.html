@@ -1,0 +1,95 @@
+<nav class="bg-main-light border-gray-200 dark:bg-gray-900 z-20 fixed top-0 left-0 right-0">
+  <div class="max-w-screen-xl flex flex-wrap md:flex-nowrap items-center justify-between mx-auto p-2">
+    <a routerLink="home" class="flex items-center space-x-3 rtl:space-x-reverse">
+      <img src="./assets/images/freshcart-logo.svg" alt="Flowbite Logo" />
+
+    </a>
+    <button data-collapse-toggle="navbar-default" type="button"
+      class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+      aria-controls="navbar-default" aria-expanded="false">
+      <span class="sr-only">Open main menu</span>
+      <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M1 1h15M1 7h15M1 13h15" />
+      </svg>
+    </button>
+    <div class="hidden w-full   md:flex md:justify-between md:items-center " id="navbar-default">
+
+      @if(is_login)
+      {
+
+      <ul
+        class="font-medium flex flex-col p-4 md:p-0 md:ms-4 mt-4 rounded-lg  md:flex-row md:space-x-0 rtl:space-x-reverse md:mt-0 md:border-0  dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+        <li class="max-md:mb-1">
+          <a routerLinkActive="active-link" routerLink="home"
+            class="block py-2 md:py-2 md:px-3 px-3 text-white bg-gray-700 rounded md:bg-transparent md:text-gray-600 md:p-0 dark:text-white md:dark:text-green-500">Home</a>
+        </li>
+
+        <li class="max-md:mb-1">
+          <a routerLinkActive="active-link" routerLink="product"
+            class="block py-2 md:py-2 md:px-3 px-3 text-white bg-gray-700 rounded md:bg-transparent md:text-gray-600 md:p-0 dark:text-white md:dark:text-green-500">Product</a>
+        </li>
+        <li class="max-md:mb-1">
+          <a routerLinkActive="active-link" routerLink="catagory"
+            class="block py-2 md:py-2 md:px-3 px-3 text-white bg-gray-700 rounded md:bg-transparent md:text-gray-600 md:p-0 dark:text-white md:dark:text-green-500">Catagories</a>
+        </li>
+        <li class="max-md:mb-1">
+          <a routerLinkActive="active-link" routerLink="brands"
+            class="block py-2 md:py-2 md:px-3 px-3 text-white bg-gray-700 rounded md:bg-transparent md:text-gray-600 md:p-0 dark:text-white md:dark:text-green-500">Brands</a>
+        </li>
+
+      </ul>
+      }
+      <ul
+        class="font-medium  ms-auto  flex  max-md:justify-center    items-center p-0  mt-4 border border-gray-100 rounded-lg  md:flex-row md:space-x-2 rtl:space-x-reverse md:mt-0 md:border-0  dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+        <li class="block py-1 px-1 fab fa-facebook"></li>
+        <li class="block py-1 px-1 fab fa-twitter"></li>
+        <li class="block py-1 px-1 fab fa-linkedin"></li>
+        <li class="block py-1 px-1 fab fa-youtube"></li>
+        <li class="block py-1 px-1 fab fa-instagram"></li>
+        <li class="block py-1 px-1 fab fa-tiktok"></li>
+        @if (!is_login) {
+        <li class="whitespace-nowrap max-md:ms-2">
+          <a routerLinkActive="active-link" routerLink="register"
+            class="block py-1 md:py-1 md:px-2 px-2 text-white bg-gray-700 rounded md:bg-transparent md:text-gray-600 md:p-0 dark:text-white md:dark:text-green-500">Register</a>
+        </li>
+        <li class="whitespace-nowrap max-md:ms-2">
+          <a routerLinkActive="active-link" routerLink="login"
+            class="block py-1 md:py-1 md:px-2 px-2 text-white bg-gray-700 rounded md:bg-transparent md:text-gray-600 md:p-0 dark:text-white md:dark:text-green-500">Login</a>
+        </li>
+        }
+        @else {
+
+        <!--  -->
+
+
+
+        <!--  -->
+        <li class="max-md:mb-1 relative">
+          <div
+            class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">
+            {{count || 0}}
+          </div>
+            <a routerLinkActive="active-link" routerLink="cart"
+            class="block py-2 md:py-2 md:px-3 px-3 text-white bg-gray-700 rounded md:bg-transparent md:text-gray-600 md:p-0 dark:text-white md:dark:text-green-500">Cart  <i class="fa-solid fa-cart-shopping"></i></a>
+        </li>
+        <li class="max-md:mb-1 relative">
+          <div
+            class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">
+            {{count_wishlist()}}
+          </div>
+            <a routerLinkActive="active-link" routerLink="wishlist"
+            class="block py-2 md:py-2 md:px-3 px-3 text-white bg-gray-700 rounded md:bg-transparent md:text-gray-600 md:p-0 dark:text-white md:dark:text-green-500">Wishlist   <i  class="fa-solid fa-heart"></i></a>
+        </li>
+        <li class="whitespace-nowrap max-md:ms-2 ">
+          <a routerLinkActive="active-link"
+            class="block py-1 md:py-1 cursor-pointer md:px-2 px-2 text-white bg-gray-700 rounded md:bg-transparent md:text-gray-600 md:p-0 dark:text-white md:dark:text-green-500"
+            (click)="signOut()">Sign Out</a>
+        </li>
+        }
+
+      </ul>
+    </div>
+
+  </div>
+</nav>

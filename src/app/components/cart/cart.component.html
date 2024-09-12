@@ -1,0 +1,56 @@
+<section class="container mx-auto bg-main-light rounded-md p-5 my-4">
+    <h1 class="font-medium text-2xl">shop Cart :</h1>
+    @if (exist_cart) {
+        <div class="flex   p-1 justify-around items-center">
+            <h1 [routerLink]="['/payment',Cart?.cartId]" class="bg-main  p-2 rounded-md inline-block mt-2 text-white cursor-pointer ">payment</h1>
+            <h2 (click)="clear()" class="cursor-pointer  text-xl text-red-500 border text-center  bg-main-light  w-44 p-2 rounded-md">Clear all Cart @if
+                (cleared) {<i class="fa fa-spin fa-spinner"></i>}</h2>
+                
+        </div>
+        <div class="flex p-3 justify-between">
+            <p class="text-main  text-lg pt-2 pb-0 mb-0">total price {{Cart?.data?.totalCartPrice || "0:0"}} EGP</p>
+        <p class="text-xl  font-medium">{{Cart?.numOfCartItems}}</p>
+        </div>
+    }
+    
+    
+   
+    <hr>
+    
+    @for (item of Cart?.data?.products; track $index) {
+    <div class="flex  justify-between items-center my-5 column   flex-wrap">
+        <div class="flex   flex-wrap">
+            <img [src]="item?.product?.imageCover" class="w-20" alt="">
+            <div class="content p-5">
+                <p class="font-medium text-black max-sm:w-20 text-lg">{{item.product.title.split(" ",6).join(" ")}}.
+                </p>
+                <p class="text-main  text-lg">price : {{item.price}}
+                <p>
+                <p (click)="remove(item.product._id)" class="font-medium cursor-pointer text-black text-lg">
+                    <i class="fa text-red-500 cursor-pointer fa-trash-can"></i>
+                    Remove
+                    <!-- @if (removed) {<i class="fa fa-spin fa-spinner"></i>} -->
+                </p>
+            </div>
+        </div>
+        <div class="counter flex-wrap flex items-center gap-2">
+
+
+
+            <i (click)="increment(item.product._id,item.count +1)"
+                class="fa cursor-pointer text-main fa-plus-square text-2xl">
+            </i>
+            <!-- @if (success) {<i class="fa fa-spin fa-spinner"></i>} -->
+            <p>{{item.count}}</p>
+            <!-- @if (success2) {<i class="fa fa-spin fa-spinner"></i>} -->
+            <i (click)="decrement(item.product._id,item.count -1)"
+                class="text-main cursor-pointer fa fa-minus-square text-2xl"></i>
+        </div>
+    </div>
+    <hr>
+
+    }
+    @empty {
+        <img src="../../../assets/images/EmptyCart_3-Copy.png.webp" class="w-[50%] m-auto" alt="">
+    }
+</section>

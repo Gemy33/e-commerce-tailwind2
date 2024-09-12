@@ -1,0 +1,98 @@
+<section class="md:w-7/12 max-md:w-10/12 mx-auto my-8">
+    <form class="py-5" [formGroup]="register_form" (ngSubmit)="submit_register()">
+        <h1 class=" text-2xl font-light text-main ">Register Now :</h1>
+        <div class="input my-3">
+            <label class="" for="name">name:</label>
+            <input formControlName="name"
+                class="focus:border-green-500  focus:shadow-md-emerald-500  focus:outline-0  w-full border border-gray-300 py-[5px] rounded-md"
+                type="text" id="name">
+        </div>
+        @if (register_form.get('name')?.errors && (register_form.get('name')?.touched ||
+        register_form.get('name')?.dirty)) {
+        <div class=" bg-red-400 p-2 rounded-md shadow-md shadow-red-950 ">
+            @if (register_form.get('name')?.getError('required')) {<p>name is required</p>}
+            @if (register_form.get('name')?.getError('minlength')) {<p>name the character must at last 5 char</p>}
+            @if (register_form.get('name')?.getError('maxlength')) { <p>name the character must be grater the 20 char
+            </p>}
+        </div>
+        }
+        <div class="input my-3">
+            <label class="" for="email">email:</label>
+            <input formControlName="email"
+                class="focus:border-green-500 focus:shadow-emerald-500 focus:shadow-none  focus:outline-0  w-full border border-gray-300 py-[5px] rounded-md"
+                type="email" id="email">
+        </div>
+        @if (register_form.get('email')?.errors && (register_form.get('email')?.touched ||
+        register_form.get('email')?.dirty)) {
+        <div class=" bg-red-400 p-2 rounded-md shadow-md shadow-red-950 ">
+            @if (register_form.get('email')?.getError('required')) {<p>email is required</p>}
+            @if (register_form.get('email')?.getError('email')) {<p>email is in valid</p>}
+        </div>
+        }
+        <div class="input relative my-3">
+            <label class="" for="password">password:</label>
+            <input #pass formControlName="password"
+                class="focus:border-green-500 focus:shadow-emerald-500 focus:shadow-none  focus:outline-0  w-full border border-gray-300 py-[5px] rounded-md"
+                type="password" id="password">
+                <div class="absolute right-0 me-2 top-[50%] ">
+                    @if (!is_shown) {<i (click)="pass.type='text';is_shown=true" class="fa fa-eye"></i>}
+                    @if (is_shown) {<i (click)="pass.type='password';is_shown=false" class="fa fa-eye-slash"></i>}
+                </div>
+        </div>
+        @if (register_form.get('password')?.errors && (register_form.get('password')?.touched ||
+        register_form.get('password')?.dirty)) {
+        <div class=" bg-red-400 p-2 rounded-md shadow-md shadow-red-950 ">
+            @if (register_form.get('password')?.getError('required')) {<p>password is required</p>}
+            @if (register_form.get('password')?.getError('pattern')) {<p>the password must be at last 6 digit</p>}
+
+        </div>
+        }
+        <div class="input my-3 relative ">
+
+            <label class="" for="rePassword">rePassword:</label>
+            <input #repass formControlName="rePassword"
+                class="focus:border-green-500 focus:shadow-emerald-500 focus:shadow-none  focus:outline-0  w-full border border-gray-300 py-[5px] rounded-md"
+                type="password" id="rePassword">
+            <div class="absolute right-0 me-2 top-[50%] ">
+                @if (!is_shown1) {<i (click)="repass.type='text';is_shown1=true" class="fa fa-eye"></i>}
+                @if (is_shown1) {<i (click)="repass.type='password';is_shown1=false" class="fa fa-eye-slash"></i>}
+            </div>
+        </div>
+        @if (register_form.get('rePassword')?.getError('required') && (register_form.get('rePassword')?.touched ||
+        register_form.get('rePassword')?.dirty)) {
+        <div class=" bg-red-400 rounded-b-none p-2 rounded-md shadow-md shadow-red-950 ">
+            <p>rePassword is required</p>
+        </div>
+        }
+        @if (register_form.getError('mismatch') && (register_form.get('rePassword')?.touched ||
+        register_form.get('rePassword')?.dirty)) {
+        <div class=" bg-red-400 p-2 rounded-t-none rounded-md shadow-md shadow-red-950 ">
+            <p>confirmation not match</p>
+        </div>
+        }
+        <!-- @if (register_form.getError('mismatch') && (register_form.get('rePassword')?.touched || register_form.get('rePassword')?.dirty)) {
+            <div class=" bg-red-400 p-2 rounded-md shadow-md shadow-red-950 ">
+                <p>confirmation not match</p>
+            </div>
+          } -->
+        <div class="input my-3">
+            <label class="" for="phone">phone:</label>
+            <input formControlName="phone"
+                class="focus:border-green-500 focus:shadow-emerald-500 focus:shadow-none  focus:outline-0  w-full border border-gray-300 py-[5px] rounded-md"
+                type="tel" id="phone">
+        </div>
+        @if (register_form.get('phone')?.errors && (register_form.get('phone')?.touched ||
+        register_form.get('phone')?.dirty)) {
+        <div class=" bg-red-400 p-2 rounded-md shadow-md shadow-red-950 ">
+            @if (register_form.get('phone')?.getError('required')) {<p>phone is required</p>}
+            @if (register_form.get('phone')?.getError('pattern')) {<p>phone must be in egypt</p>}
+        </div>
+        }
+        @if (is_error) {<p class=" bg-red-400 mt-1 mb-2 p-2 rounded-md shadow-md shadow-red-950 ">{{msg_err}}</p>}
+        @if (is_success) {<p
+            class=" bg-emerald-500 text-xl text-white mt-1 mb-2 p-2 rounded-md shadow-md shadow-emerald-800 ">Success
+        </p>}
+        <button [disabled]="register_form.invalid" class="btn-main block ms-auto mt-1">Register @if (is_loading) {<i
+                class="fa fa-spin fa-spinner"></i>}</button>
+    </form>
+</section>

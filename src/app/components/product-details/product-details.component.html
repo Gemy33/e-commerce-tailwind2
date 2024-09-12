@@ -1,0 +1,21 @@
+<div class="flex flex-wrap flex-column max-md:flex-column-reverse  my-8 justify-between items-center  p-5">
+    <div class="w-2/12  max-lg:w-[50%] mx-auto bg-red-200">
+        <img [src]="specific_product?.imageCover" class="w-full " alt="">
+    </div>
+    <div class="w-9/12 max-lg:w-full ps-0 max-lg:pe-0 p-5">
+        <h2>{{specific_product?.title}}</h2>
+        <p class="text-gray-500 p-3">{{specific_product?.description?.split(" ",20)?.join(" ")}}</p>
+        <h4 class="py-1">{{specific_product?.category?.name}}</h4>
+        <div class="flex py-1 flex-wrap justify-between">
+            <span>{{specific_product?.price}} EGP</span>
+
+            <span>{{specific_product?.ratingsAverage}}
+                <i class="fa fa-star text-yellow-300"></i>
+            </span>
+
+        </div>
+        <button (click)="add_cart(specific_product._id)" class="w-full btn-main">+ ADD to cart @if (isloding) {
+            <i class="fa fa-spin fa-spinner"></i>
+            }</button>
+    </div>
+</div>

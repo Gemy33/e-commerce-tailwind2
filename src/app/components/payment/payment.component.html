@@ -1,0 +1,14 @@
+<section class="py-12">
+    <form class="w-8/12 mx-auto" [formGroup]="userDetails" (ngSubmit)="pay()">
+        <div class="my-4">
+            <input type="text" formControlName="details"class="w-full rounded-md" placeholder="Enter your details">
+        </div>
+        <div class="my-4">
+            <input type="tel" formControlName="phone"  class="w-full rounded-md" placeholder="Enter your phone">
+        </div>
+        <div class="my-4">
+            <input type="text" formControlName="city"  class="w-full rounded-md" placeholder="Enter your city">
+        </div>
+        <button [disabled]="userDetails.invalid" class="btn-main block ms-auto">submit @if (isloading) { <i class="fa fa-spin fa-spinner"></i> }</button>
+    </form>
+</section>

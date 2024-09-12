@@ -1,0 +1,68 @@
+<!-- main slider -->
+<div class="flex justify-between ">
+    <div class="w-9/12 max-md:w-full  ">
+        <owl-carousel-o [options]="customOptions">
+            <ng-template carouselSlide><img class=" object-fit-contain w-full h-[400px]"
+                    src="../../../assets/images/main-slider-1.jpeg" alt=""></ng-template>
+            <ng-template carouselSlide><img class="object-fit-contain  w-full h-[400px]"
+                    src="../../../assets/images/main-slider-2.jpeg" alt=""></ng-template>
+            <ng-template carouselSlide><img class="object-fit-contain  w-full h-[400px]"
+                    src="../../../assets/images/main-slider-3.jpeg" alt=""></ng-template>
+        </owl-carousel-o>
+
+    </div>
+    <div class="w-3/12 max-md:hidden  ">
+        <img class="w-full h-[200px] " src="../../../assets/images/main-slider-1.jpeg" alt="">
+        <img class="w-full h-[200px]" src="../../../assets/images/main-slider-3.jpeg" alt="">
+    </div>
+</div>
+<!-- catagories slider -->
+<section>
+    <h1 class="py-6 ps-4  font-medium text-3xl">populer catagories</h1>
+    <owl-carousel-o [options]="customOptions_cat">
+
+
+        @for (cat of catagories; track $index) {
+        <ng-template carouselSlide>
+            <!-- content -->
+            <img [src]="cat.image" class="w-full h-[250px]" alt="">
+            <h3 class="text-center p-2">{{cat.name}}</h3>
+        </ng-template>
+        }
+
+
+    </owl-carousel-o>
+</section>
+<!-- products -->
+<h1 class="py-6 ps-4  font-medium text-3xl">populer products</h1>
+<div class="text-center">
+    <input [(ngModel)]="term" placeholder="search with title....." type="text" class="w-[50%]  rounded-md " name=""
+        id="">
+</div>
+
+<div class="flex w-[95%] max-md:w-[90%] py-5 mx-auto flex-wrap ">
+    @for (product of products.reverse().slice(0,12) | search:term; track $index) {
+    <div [title]="product.slug"
+        class=" p-3 cursor-pointer flex flex-wrap flex-column justify-between   lg:w-2/12 md:w-3/12 sm:w-4/12 w-6/12 product">
+        <div [routerLink]="['/details',product._id]">
+            <img [src]="product.imageCover" class="w-full" alt="">
+            <h2 class="text-main py-1">{{product.category.name}}</h2>
+            <p class="font-black pt-1 pb-2">{{product.slug.split("-",3).join("-")}}</p>
+            <div class="flex justify-between">
+                <span>{{product.price}} EGP</span>
+                <span> @for (item of [1,2,3,4,5].slice(0,product.ratingsAverage); track $index) {<i
+                        class="text-yellow-300 fa fa-star"></i>}{{product.ratingsAverage}} </span>
+            </div>
+        </div>
+        <div class="flex justify-between  w-full  items-center">
+
+
+            <button (click)="add_cart(product.id)" class="w-[100%]    btn-main mt-2 ">ADD TO Cart </button>
+            <i #i [ngClass]="{'active': activeElements[$index], 'inactive': !activeElements[$index]}"  (click)="add_style(product.id,$index) ; "  title="add to wishlist"  class="fa   text-2xl fa-heart text-black  "></i>
+        </div>
+        <!-- (click)="add_to_wishlist(product.id);btn.classList.add('bg-white');i.classList.add('text-[red]')"><i #i class="fa fa-heart text-white  " -->
+        <!-- <span class="ms-auto  p-5 bg-red-50"></span> -->
+
+    </div>
+    }
+</div>

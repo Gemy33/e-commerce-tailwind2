@@ -1,0 +1,33 @@
+<section class="py-9">
+    <div class="container m-auto">
+        <h1 class="font-medium text-2xl">All catagory</h1>
+        <div class="flex justify-center    items-center flex-wrap p-3 ">
+           @for (item of all_catagory; track $index) {
+            <div [routerLink]="['/product',item._id]" (click)="show_sup(item._id,item.name)" class="lg:w-[25%]   product md:w-4/12  mb-4  p-4  w-6/12">
+                <div class="" >
+                    <img [src]="item.image" class="w-full h-48" alt="">
+                    <p class="font-bold text-xl p-1 text-main">{{item.name}}</p>
+                </div>
+            </div>
+           }
+        </div>
+
+
+        <!-- @if (is_sup) {
+        <h1 class=" font-medium text-2xl text-main text-center my-4">{{text}} supcatagor</h1>
+
+        }        
+        <div class=" flex text-center justify-center items-start mx-auto  flex-wrap g-4 ">
+            @for (item of all_sup; track $index) {
+                <div class=" p-3 w-[33.3%]">
+                 <div class="border product  py-3 ">
+                     <h2 class="font-bold text-2xl ">{{item.slug}}</h2>
+                 </div>
+                </div>
+            }
+            </div> -->
+        
+           
+
+    </div>
+</section>
