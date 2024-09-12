@@ -24,6 +24,10 @@ export class PaymentService {
       `${envionment.baseUrl}/api/v1/orders/checkout-session/${id}?url=http://localhost:4200`,
       {
         shippingAddress: userData,
+      },{
+        headers:
+          this.mytoken
+        
       }
     );
   }
