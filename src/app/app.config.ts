@@ -14,7 +14,8 @@ import { loadingInterceptor } from './core/interceptores/loading.interceptor';
 export const appConfig: ApplicationConfig = {
   providers: [provideRouter(routes,withViewTransitions(),
     withInMemoryScrolling({scrollPositionRestoration:"top"})),
-     provideClientHydration(),provideHttpClient(withFetch(),withInterceptors([errorsInterceptor,loadingInterceptor])),
+     provideClientHydration(),
+     provideHttpClient(withFetch(),withInterceptors([errorsInterceptor,loadingInterceptor])),
      importProvidersFrom(RouterModule ,BrowserAnimationsModule,NgxSpinnerModule ),
      provideToastr()  ,
 

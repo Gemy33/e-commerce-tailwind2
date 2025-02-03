@@ -57,8 +57,8 @@
         <div class="flex justify-between  w-full  items-center">
 
 
-            <button (click)="add_cart(product.id)" class="w-[100%]    btn-main mt-2 ">ADD TO Cart </button>
-            <i #i [ngClass]="{'active': activeElements[$index], 'inactive': !activeElements[$index]}"  (click)="add_style(product.id,$index) ; "  title="add to wishlist"  class="fa   text-2xl fa-heart text-black  "></i>
+            <button (click)="add_cart(product.id)" class="w-[100%]  max-sm:p-0 max-sm:py-1 btn-main mt-2 ">ADD TO Cart </button>
+            <i #i [ngClass]="{'active': activeElements[$index], 'inactive': !activeElements[$index]}"  (click)="add_style(product.id,$index,i) ; "  title="add to wishlist"  class="fa fa-regular  text-xl fa-heart  text-black  "></i>
         </div>
         <!-- (click)="add_to_wishlist(product.id);btn.classList.add('bg-white');i.classList.add('text-[red]')"><i #i class="fa fa-heart text-white  " -->
         <!-- <span class="ms-auto  p-5 bg-red-50"></span> -->

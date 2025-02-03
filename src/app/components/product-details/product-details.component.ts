@@ -5,7 +5,6 @@ import { product } from '../../core/interfaces/products/product';
 import { CartSerService } from '../../core/services/cart-ser.service';
 import { log } from 'console';
 import { ToastrService } from 'ngx-toastr';
-import { CounterService } from '../../core/services/counter.service';
 
 @Component({
   selector: 'app-product-details',
@@ -17,7 +16,7 @@ import { CounterService } from '../../core/services/counter.service';
 export class ProductDetailsComponent implements OnInit {
   specific_product!:product;
   isloding:boolean=false;
- constructor(private _ActivatedRoute:ActivatedRoute,private _CounterService:CounterService,private _ProductsService:ProductsService,private _ToastrService:ToastrService,private _CartSerService:CartSerService){}
+ constructor(private _ActivatedRoute:ActivatedRoute,private _ProductsService:ProductsService,private _ToastrService:ToastrService,private _CartSerService:CartSerService){}
   ngOnInit(): void {
     this._ActivatedRoute.paramMap.subscribe((params)=>{
       const id = params.get('id')!
@@ -36,7 +35,8 @@ export class ProductDetailsComponent implements OnInit {
 this._CartSerService.add_to_cart(id).subscribe({
   next:(res)=>{
     console.log(res);
-    this._CounterService.chenageData(res.numOfCartItems)
+    this._CartSerService.changeCounter(res.numOfCartItems)
+    // this._CounterService.chenageData(res.numOfCartItems)
     // localStorage.setItem('couont',res.numOfCartItems)
 
 

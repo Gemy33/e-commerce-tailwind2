@@ -19,7 +19,7 @@
       {
 
       <ul
-        class="font-medium flex flex-col p-4 md:p-0 md:ms-4 mt-4 rounded-lg  md:flex-row md:space-x-0 rtl:space-x-reverse md:mt-0 md:border-0  dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+        class="font-medium flex flex-col p-4 max-md:pb-0 md:p-0 md:ms-4 mt-4 rounded-lg  md:flex-row md:space-x-0 rtl:space-x-reverse md:mt-0 md:border-0  dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
         <li class="max-md:mb-1">
           <a routerLinkActive="active-link" routerLink="home"
             class="block py-2 md:py-2 md:px-3 px-3 text-white bg-gray-700 rounded md:bg-transparent md:text-gray-600 md:p-0 dark:text-white md:dark:text-green-500">Home</a>
@@ -41,15 +41,17 @@
       </ul>
       }
       <ul
-        class="font-medium  ms-auto  flex  max-md:justify-center    items-center p-0  mt-4 border border-gray-100 rounded-lg  md:flex-row md:space-x-2 rtl:space-x-reverse md:mt-0 md:border-0  dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-        <li class="block py-1 px-1 fab fa-facebook"></li>
-        <li class="block py-1 px-1 fab fa-twitter"></li>
-        <li class="block py-1 px-1 fab fa-linkedin"></li>
-        <li class="block py-1 px-1 fab fa-youtube"></li>
-        <li class="block py-1 px-1 fab fa-instagram"></li>
-        <li class="block py-1 px-1 fab fa-tiktok"></li>
+        class="font-medium  ms-auto  flex  max-md:justify-center  max-md:flex-col-reverse max-md:mt-0   items-center p-0  mt-4 border border-gray-100 rounded-lg  md:flex-row md:space-x-2 rtl:space-x-reverse md:mt-0 md:border-0  dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+     <ul class="font-medium  ms-auto  flex  max-md:justify-center items-center p-0   mt-4 border border-gray-100 rounded-lg  md:flex-row md:space-x-2 rtl:space-x-reverse md:mt-0 md:border-0  dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+      <li class="block py-1 px-1 fab fa-facebook"></li>
+      <li class="block py-1 px-1 fab fa-twitter"></li>
+      <li class="block py-1 px-1 fab fa-linkedin"></li>
+      <li class="block py-1 px-1 fab fa-youtube"></li>
+      <li class="block py-1 px-1 fab fa-instagram"></li>
+      <li class="block py-1 px-1 fab fa-tiktok"></li>
+     </ul>
         @if (!is_login) {
-        <li class="whitespace-nowrap max-md:ms-2">
+        <li class="whitespace-nowrap  max-md:ms-2">
           <a routerLinkActive="active-link" routerLink="register"
             class="block py-1 md:py-1 md:px-2 px-2 text-white bg-gray-700 rounded md:bg-transparent md:text-gray-600 md:p-0 dark:text-white md:dark:text-green-500">Register</a>
         </li>
@@ -65,15 +67,16 @@
 
 
         <!--  -->
-        <li class="max-md:mb-1 relative">
+        <li class="max-md:mb-1 max-md:w-[90%] m-auto relative">
           <div
             class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">
-            {{count || 0}}
+         
+             {{newcounter()}}
           </div>
             <a routerLinkActive="active-link" routerLink="cart"
             class="block py-2 md:py-2 md:px-3 px-3 text-white bg-gray-700 rounded md:bg-transparent md:text-gray-600 md:p-0 dark:text-white md:dark:text-green-500">Cart  <i class="fa-solid fa-cart-shopping"></i></a>
         </li>
-        <li class="max-md:mb-1 relative">
+        <li class="max-md:mb-1 max-md:w-[90%] m-auto relative">
           <div
             class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">
             {{count_wishlist()}}
@@ -81,7 +84,7 @@
             <a routerLinkActive="active-link" routerLink="wishlist"
             class="block py-2 md:py-2 md:px-3 px-3 text-white bg-gray-700 rounded md:bg-transparent md:text-gray-600 md:p-0 dark:text-white md:dark:text-green-500">Wishlist   <i  class="fa-solid fa-heart"></i></a>
         </li>
-        <li class="whitespace-nowrap max-md:ms-2 ">
+        <li class="whitespace-nowrap max-md:w-[90%] m-auto max-md:mb-1 ">
           <a routerLinkActive="active-link"
             class="block py-1 md:py-1 cursor-pointer md:px-2 px-2 text-white bg-gray-700 rounded md:bg-transparent md:text-gray-600 md:p-0 dark:text-white md:dark:text-green-500"
             (click)="signOut()">Sign Out</a>

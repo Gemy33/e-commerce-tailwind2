@@ -2,7 +2,8 @@ import {
   Component,
   ElementRef,
   QueryList,
-  ViewChildren
+  ViewChild,
+  ViewChildren,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
@@ -10,7 +11,6 @@ import { ToastrService } from 'ngx-toastr';
 import { ProductsService } from '../../core/services/products.service';
 import { product } from './../../core/interfaces/products/product';
 import { CartSerService } from './../../core/services/cart-ser.service';
-import { CounterService } from './../../core/services/counter.service';
 // import * as catagorySer/vice from '../../core/services/catagory.service';
 import { NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -22,22 +22,20 @@ import { WishlistService } from '../../core/services/wishlist.service';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CarouselModule,NgClass, FormsModule, SearchPipe, RouterLink],
+  imports: [CarouselModule, NgClass, FormsModule, SearchPipe, RouterLink],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
 export class HomeComponent {
   // @ViewChildren('i') icons!: QueryList<ElementRef>;
-// console.log(icons);
-  
-  
-  activeElements:boolean[]=[];
-  
+  // console.log(icons);
+  // @ViewChild('i') myelement!:HTMLElement;
+
+  activeElements: boolean[] = [];
 
   constructor(
     private _ProductsService: ProductsService,
     private _WishlistService: WishlistService,
-    private _CounterService: CounterService,
     private _CatagoryService: catagoryService,
     private _CartSerService: CartSerService,
     private _ToastrService: ToastrService
@@ -51,7 +49,8 @@ export class HomeComponent {
   ngOnInit(): void {
     this.arrived = true;
     const savedStyles = JSON.parse(localStorage.getItem('activeElements')!);
-    this.activeElements = savedStyles || new Array(this.products.length).fill(false);
+    this.activeElements =
+      savedStyles || new Array(this.products.length).fill(false);
 
     this._CatagoryService.get_all_catagory().subscribe({
       next: (res) => {
@@ -63,10 +62,8 @@ export class HomeComponent {
 
     this._ProductsService.get_all_products().subscribe({
       next: (res) => {
-        
-        
         // this.icons.forEach((i) => {
-          // console.log('kdfjkdjf', i);
+        // console.log('kdfjkdjf', i);
         // });
 
         // console.log(res);
@@ -87,9 +84,10 @@ export class HomeComponent {
     this.isFired = true;
     this._CartSerService.add_to_cart(pid).subscribe({
       next: (res) => {
-        // console.log(res);
+        this._CartSerService.changeCounter(res.numOfCartItems);
+        console.log(res);
         this.isFired = false;
-        this._CounterService.chenageData(res.numOfCartItems); //change here the data
+        // this._CounterService.chenageData(res.numOfCartItems); //change here the data
         this._ToastrService.success('Product added successfully to your cart');
         // localStorage.setItem('couont',res.numOfCartItems)
       },
@@ -98,27 +96,44 @@ export class HomeComponent {
   add_to_wishlist(id: string): void {
     this._WishlistService.add_wishlist(id).subscribe((res) => {
       this._ToastrService.success(res.message);
-      this._CounterService.wishlist_count.set(res.data.length);
-      // console.log(res);
+      // this._CounterService.wishlist_count.set(res.data.length);
+      this._WishlistService.changeWishlistCounter(res.data.length);
+      console.log(res);
 
       console.log(res.data.length);
     });
   }
-  add_style(id: string, index: any) {
+  removeFromWishlist(id: string) {
+    this._WishlistService.remove_item_from_wishlist(id).subscribe({
+      next: (res) => {
+        this._ToastrService.error(res.message);
+        this._WishlistService.changeWishlistCounter(res.data.length);
+        console.log(res);
+      },
+    });
+  }
+  add_style(id: string, index: any, element: HTMLElement) {
     // this.icon.nativeElement.id=id;
     // console.log(this.icon.nativeElement);
     // console.log(index);
-
-    this.add_to_wishlist(id);
-    // this.redOrblack=true;
-    localStorage.setItem('red', 'ture');
-   this.toggleStyle(index)
+    // this.myelement.classList.contains('inactive')
+    console.log(element.classList.contains('inactive'));
+    if (element.classList.contains('inactive')) {
+      this.add_to_wishlist(id);
+      localStorage.setItem('red', 'ture');
+      this.toggleStyle(index);
+    }
+    if (element.classList.contains('active')) {
+      this.removeFromWishlist(id);
+      localStorage.setItem('red', 'ture');
+      this.toggleStyle(index);
+    }
   }
   toggleStyle(index: number) {
     // Toggle the style for a specific element
     this.activeElements[index] = !this.activeElements[index];
     // console.log(this.);
-    
+
     // Save the updated state to localStorage
     localStorage.setItem('activeElements', JSON.stringify(this.activeElements));
   }

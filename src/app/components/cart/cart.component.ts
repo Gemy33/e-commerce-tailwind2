@@ -5,7 +5,6 @@ import { log } from 'console';
 import { cart_interface } from '../../core/interfaces/products/cart';
 import { BehaviorSubject } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
-import { CounterService } from '../../core/services/counter.service';
 
 
 
@@ -29,17 +28,17 @@ export class CartComponent implements OnInit{
   count:BehaviorSubject<any>=new BehaviorSubject(null)
   
   res_:any;
-  constructor(private _CartSerService:CartSerService,private _CounterService: CounterService,private _ToastrService:ToastrService){}
+  constructor(private _CartSerService:CartSerService,private _ToastrService:ToastrService){}
   ngOnInit(): void {
     
 this._CartSerService.get_cart().subscribe({
   next:(res)=>{
-    console.log(res);
+    // console.log(res);
     this.Cart=res;
-    this.count.next(this.Cart.numOfCartItems);
-    if (this.Cart.numOfCartItems==0) {
-      this.exist_cart=false;
-    }
+    // this.count.next(this.Cart.numOfCartItems);
+    // if (this.Cart.numOfCartItems==0) {
+    //   this.exist_cart=false;
+    // }
    
 
   }
@@ -51,7 +50,7 @@ this._CartSerService.get_cart().subscribe({
     this._CartSerService.updata_quntity(id,coun).subscribe({
       next:(res)=>{
         this.success=false;
-        console.log(res);
+        // console.log(res);
         this.Cart=res;
         this.res_=res;
       this._ToastrService.success('Success');
@@ -63,15 +62,15 @@ this._CartSerService.get_cart().subscribe({
     this.success2=true;
     this._CartSerService.updata_quntity(id,coun).subscribe({
       next:(res)=>{
-        console.log(res);
+        // console.log(res);
         this.success2=false;
         this.Cart=res;
       this._ToastrService.error('the item deleted');
       // console.log(rea);
-      if(res.numOfCartItems==0)
-      {
-        this._CounterService.counter_send.next(0)
-      }
+      // if(res.numOfCartItems==0)
+      // {
+      //   // this._CounterService.counter_send.next(0)
+      // }
       
         
       },
@@ -82,9 +81,10 @@ this._CartSerService.get_cart().subscribe({
     this.removed=true;
     this._CartSerService.delete_item(id).subscribe({
       next:(res)=>{
-        console.log(res);
+        // console.log(res);
     this.removed=false;
-    this._CounterService.chenageData(res.numOfCartItems)
+    this._CartSerService.changeCounter(res.numOfCartItems);
+    // this._CounterService.chenageData(res.numOfCartItems)
 
     if (this.Cart.numOfCartItems==0) {
       this.exist_cart=false;
@@ -107,8 +107,9 @@ this._CartSerService.get_cart().subscribe({
         this.Cart={} as cart_interface;
     this.cleared=false;
 
-        console.log(res);
-    this._CounterService.chenageData(0)
+        // console.log(res);
+        this._CartSerService.changeCounter(0);
+    // this._CounterService.chenageData(0)
 
    
 

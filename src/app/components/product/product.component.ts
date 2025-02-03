@@ -1,86 +1,87 @@
-import { join } from 'node:path';
-import { Component, inject, OnInit, WritableSignal } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ProductsService } from '../../core/services/products.service';
-import { SearchPipe } from "../../core/pipes/search.pipe";
-import { product } from '../../core/interfaces/products/product';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { WishlistService } from '../../core/services/wishlist.service';
-import { CartSerService } from '../../core/services/cart-ser.service';
 import { ToastrService } from 'ngx-toastr';
-import { CounterService } from '../../core/services/counter.service';
-import { catagoryService } from '../../core/services/catagories.service';
-import { single } from 'rxjs';
+import { product } from '../../core/interfaces/products/product';
+import { SearchPipe } from '../../core/pipes/search.pipe';
 import { BrandsService } from '../../core/services/brands.service';
+import { CartSerService } from '../../core/services/cart-ser.service';
+import { catagoryService } from '../../core/services/catagories.service';
+import { ProductsService } from '../../core/services/products.service';
+import { WishlistService } from '../../core/services/wishlist.service';
 
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [FormsModule,RouterLink, SearchPipe],
+  imports: [FormsModule, RouterLink, SearchPipe],
   templateUrl: './product.component.html',
-  styleUrl: './product.component.scss'
+  styleUrl: './product.component.scss',
 })
 export class ProductComponent implements OnInit {
-  // display_text:WritableSignal<string>=single();
+  display_text: string = '';
+  _ActivatedRoute = inject(ActivatedRoute);
+  _catagoryService = inject(catagoryService);
+  _BrandsService = inject(BrandsService);
+  term!: string;
+  products: product[] = [];
+  ngOnInit(): void {
+    this._ProductsService.get_all_products().subscribe((res) => {
+      // console.log(res.data);
+      this.products = res.data;
+      // console.log(this.products[0]);
+      this._ActivatedRoute.paramMap.subscribe((res) => {
+        if (res.get('id')) {
+          this._catagoryService
+            .get_specfic_cat(res.get('id')!)
+            .subscribe((res) => {
+              console.log(res.data.name.split('', 3).join(''));
+              this.display_text = res.data.name.split('', 3).join('');
+              // console.log(this.display_text.name);
 
-  display_text:string=''
-  _ActivatedRoute=inject(ActivatedRoute)
-  _catagoryService=inject(catagoryService)
-  _BrandsService=inject(BrandsService)
-term!:string
-products:product[]=[];
-ngOnInit(): void {
- this._ProductsService.get_all_products().subscribe((res)=>{
-  // console.log(res.data);
-  this.products=res.data;
-  // console.log(this.products[0]);
-  this._ActivatedRoute.paramMap.subscribe((res)=>{
-    if (res.get('id')) {
-      this._catagoryService.get_specfic_cat(res.get('id')!).subscribe((res)=>{
-        console.log(res.data.name.split("",3).join(""));
-        this.display_text=res.data.name.split("",3).join("");
-        // console.log(this.display_text.name);
-        
-      this.products=  this.products.filter(p=>p.category.name.split("",3).join("")===this.display_text)
-        console.log(this.products);
-        
-        
-      })
-      
-    }
-   
+              this.products = this.products.filter(
+                (p) =>
+                  p.category.name.split('', 3).join('') === this.display_text
+              );
+              console.log(this.products);
+            });
+        }
+      });
+    });
+  }
+  _ProductsService = inject(ProductsService);
+  _ToastrService = inject(ToastrService);
+  _WishlistService = inject(WishlistService);
+  _CartSerService = inject(CartSerService);
+  add_to_wishlist(id: string): void {
+    this._WishlistService.add_wishlist(id).subscribe((res) => {
+      // console.log(res);
+      // this._CounterService.wishlist_count.set(res.data.length)
+      this._WishlistService.changeWishlistCounter(res.data.length);
+
+      this._ToastrService.success(res.message);
+    });
+  }
+  add_to_cart(id: string): void {
+    this._CartSerService.add_to_cart(id).subscribe((res) => {
+      // this._CounterService..set(res.data.length)
+      // this._CounterService.chenageData(res.numOfCartItems)
+      // console.log(res);
+      this._CartSerService.changeCounter(res.numOfCartItems);
+
+      this._ToastrService.success(res.message);
+    });
+  }
+  getProduct(num:number):void{
     
-  })
-  
-  
- })
-}
-_ProductsService=inject(ProductsService)
-_ToastrService=inject(ToastrService)
-_WishlistService=inject(WishlistService)
-_CartSerService=inject(CartSerService)
-_CounterService=inject(CounterService)
-add_to_wishlist(id:string):void
-{
-
- this._WishlistService.add_wishlist(id).subscribe((res)=>{
-  // console.log(res);
-  this._CounterService.wishlist_count.set(res.data.length)
-
-  
-  this._ToastrService.success(res.message)
- })
-}
-add_to_cart(id:string):void
-{
-this._CartSerService.add_to_cart(id).subscribe((res)=>{
-  // this._CounterService..set(res.data.length)
-  this._CounterService.chenageData(res.numOfCartItems)
-  // console.log(res);
-  
-
-  this._ToastrService.success(res.message)
- })
-}
-
+    this._ProductsService.get_second_all_products(num).subscribe((res)=>{
+      console.log(res);
+      this.products=res.data;
+      
+    })
+  }
+  changeStyle(element:MouseEvent):void{
+    const el=element.target as HTMLElement
+    console.log(el.classList);
+    
+  }
 }

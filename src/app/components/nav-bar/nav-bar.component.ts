@@ -2,10 +2,9 @@ import { isPlatformBrowser } from '@angular/common';
 import { Component, computed, inject, PLATFORM_ID, Signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
-import { FlowbiteService } from '../../core/services/flowbite.service';
-import { CounterService } from './../../core/services/counter.service';
-import { WishlistService } from './../../core/services/wishlist.service';
 import { CartSerService } from '../../core/services/cart-ser.service';
+import { FlowbiteService } from '../../core/services/flowbite.service';
+import { WishlistService } from './../../core/services/wishlist.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -15,7 +14,10 @@ import { CartSerService } from '../../core/services/cart-ser.service';
   styleUrl: './nav-bar.component.scss',
 })
 export class NavBarComponent {
-  count: any;
+
+  newcounter=computed(()=>{return this._CartSerService.countCart();})
+  count_wishlist:Signal<Number>=computed(()=>this._WishlistService.wishlistCounter())
+
   // private _count_wishlist Signal<number> = computed(() => this._CounterService.wishlist_count);
   res:any
   is_login: boolean = false;
@@ -23,7 +25,7 @@ export class NavBarComponent {
   constructor(
     private _FlowbiteService: FlowbiteService,
     private _AuthService: AuthService,
-    private _CounterService: CounterService,
+    // private _CounterService: CounterService,
     private _WishlistService:WishlistService,
     private _CartSerService:CartSerService
   ) // private _CartComponent:CartComponent
@@ -49,7 +51,7 @@ export class NavBarComponent {
    
     
   }
-  count_wishlist:Signal<Number>=computed(()=>this._CounterService.wishlist_count())
+  // count_wishlist:Signal<Number>=computed(()=>this._CounterService.wishlist_count())
   // di(){
   //   const count_wishlist:Signal<Number>=computed(()=>this._CounterService.wishlist_count())
   //   console.log(count_wishlist());
@@ -59,16 +61,18 @@ export class NavBarComponent {
   ngOnInit(): void {
     this._WishlistService.get_logged_user_wishlist().subscribe((res)=>{
       this.res=res
-      // console.log(this.res);
-      
-      this._CounterService.wishlist_count.set(this.res.count)
+      // console.log(this.res.count);
+      this._WishlistService.changeWishlistCounter(this.res.count);
+      // this._CounterService.wishlist_count.set(this.res.count)
       // this.count_wishlist=this.res.count;
     })
     this._FlowbiteService.loadFlowbite(() => {});
     this._CartSerService.get_cart().subscribe({
       next:(res)=>{
         // console.log(res);
-        this._CounterService.counter_send.next(res.numOfCartItems)
+      this._CartSerService.changeCounter(res.numOfCartItems);
+
+        // this._CounterService.counter_send.next(res.numOfCartItems)
         // this.Cart=res;
         // this.count.next(this.Cart.numOfCartItems);
         // if (this.Cart.numOfCartItems==0) {
@@ -78,11 +82,7 @@ export class NavBarComponent {
     
       }
     })
-    this._CounterService.counter_send.subscribe((newData:any) => {
-      this.count = newData;
     
-    });
-   
     // this.count.subscribe((c)=>{
     //   console.log(c);
 

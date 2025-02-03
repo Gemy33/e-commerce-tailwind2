@@ -1,13 +1,7 @@
-import { error } from 'node:console';
-import { CartSerService } from './../../core/services/cart-ser.service';
-import { Component, signal, WritableSignal } from '@angular/core';
-import { WishlistService } from '../../core/services/wishlist.service';
-import { log } from 'console';
-import { product } from '../../core/interfaces/products/product';
-import { Iwishlist } from '../../core/interfaces/wishlist/iwishlist';
+import { Component } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { CounterService } from '../../core/services/counter.service';
-import { BehaviorSubject } from 'rxjs';
+import { WishlistService } from '../../core/services/wishlist.service';
+import { CartSerService } from './../../core/services/cart-ser.service';
 
 @Component({
   selector: 'app-wishlist',
@@ -20,7 +14,7 @@ export class WishlistComponent {
   // all_wishlist_porducts !:Iwishlist[];
   // respons:WritableSignal<any>=signal(null)
   respons:any;
-  constructor(private _WishlistService :WishlistService,private _CounterService:CounterService,private _ToastrService:ToastrService,private _CartSerService: CartSerService){}
+  constructor(private _WishlistService :WishlistService,private _ToastrService:ToastrService,private _CartSerService: CartSerService){}
 
   ngOnInit(){
 this._WishlistService.get_logged_user_wishlist().subscribe({
@@ -28,7 +22,8 @@ this._WishlistService.get_logged_user_wishlist().subscribe({
     // console.log(res);
     this.respons=res;
    
-    this._CounterService.wishlist_count.set(this.respons.count)
+    // this._CounterService.wishlist_count.set(this.respons.count)
+    this._WishlistService.changeWishlistCounter(this.respons.count);
     
     
     
@@ -50,7 +45,8 @@ add_to_cart(id:string):void{
   this._CartSerService.add_to_cart(id).subscribe({
     next:(res)=>{
       this._ToastrService.success(res.message)
-      this._CounterService.chenageData(res.numOfCartItems) //change here the data
+      this._CartSerService.changeCounter(res.numOfCartItems);
+      // this._CounterService.chenageData(res.numOfCartItems) //change here the data
       console.log(res);
       
     },
@@ -69,7 +65,8 @@ remove(id:string){
     console.log(res.data);
     this._WishlistService.get_logged_user_wishlist().subscribe((res)=>{
       this.respons=res;
-      this._CounterService.wishlist_count.set(this.respons.count)
+      // this._CounterService.wishlist_count.set(this.respons.count)
+      this._WishlistService.changeWishlistCounter(this.respons.count);
     })
     
    },
