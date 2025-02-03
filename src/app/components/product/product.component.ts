@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -71,17 +71,38 @@ export class ProductComponent implements OnInit {
       this._ToastrService.success(res.message);
     });
   }
+  prvnum:number=1;
   getProduct(num:number):void{
     
+    this.prvnum=num;
     this._ProductsService.get_second_all_products(num).subscribe((res)=>{
       console.log(res);
       this.products=res.data;
+      window.scrollTo(0, 0);
       
     })
   }
-  changeStyle(element:MouseEvent):void{
-    const el=element.target as HTMLElement
-    console.log(el.classList);
+  getProduct1():void{
+    if(this.prvnum==1)
+      this.prvnum= this.prvnum+1;
+    else
+    this.prvnum= this.prvnum-1;
+    this._ProductsService.get_second_all_products(this.prvnum).subscribe((res)=>{
+      console.log(res);
+      this.products=res.data;
+      window.scrollTo(0, 0);
+      
+    })
+  }
+@ViewChild('a1') a1!:ElementRef;
+@ViewChild('a2') a2!:ElementRef;
+  changeStyle():void{
+    // console.log(this.a1.nativeElement);
+    this.a2.nativeElement.classList.toggle('bg-gray-800');
+    this.a1.nativeElement.classList.toggle('bg-gray-800');
+    // console.log(this.a2.nativeElement.classList);
+    
+  
     
   }
 }
