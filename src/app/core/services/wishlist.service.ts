@@ -37,23 +37,12 @@ export class WishlistService {
    
   }
 
-
   add_wishlist(_id: string): Observable<any> {
-
-  constructor(private _HttpClient: HttpClient) {
-     if (isPlatformBrowser(this._PLATFORM_ID)) {
-      this.token={token:localStorage.getItem('userData')!}
-    }
-  }
-  add_wishlist(_id: string): Observable<any> {
-  
-
     return this._HttpClient.post(
       `${envionment.baseUrl}/api/v1/wishlist`,
       {
         productId: _id,
       },
-
       {
         headers: {
           token: localStorage.getItem('userData')!,
@@ -76,28 +65,6 @@ export class WishlistService {
       headers: {
         token: localStorage.getItem('userData')!,
       },
-
-      { headers: this.token }
-    );
-  }
-  remove_item_from_wishlist(id: string): Observable<any> {
-   
-    return this._HttpClient.delete(
-      `${envionment.baseUrl}/api/v1/wishlist/${id}`,
-      {
-        headers: 
-          this.token
-       
-      }
-    );
-  }
-  get_logged_user_wishlist(): Observable<any> {
-  
-    return this._HttpClient.get(`${envionment.baseUrl}/api/v1/wishlist`, {
-      headers: 
-         this.token 
-      
-
     });
   }
 }
