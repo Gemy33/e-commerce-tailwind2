@@ -7,6 +7,11 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class WishlistService {
+
+     token!:any;
+
+  // https://ecommerce.routemisr.com/api/v1/wishlist
+
   _PLATFORM_ID = inject(PLATFORM_ID);
   wishlistCounter=signal(0);
   changeWishlistCounter(newCounter:number)
