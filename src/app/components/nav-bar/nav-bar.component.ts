@@ -51,47 +51,22 @@ export class NavBarComponent {
    
     
   }
-  // count_wishlist:Signal<Number>=computed(()=>this._CounterService.wishlist_count())
-  // di(){
-  //   const count_wishlist:Signal<Number>=computed(()=>this._CounterService.wishlist_count())
-  //   console.log(count_wishlist());
-    
-  // }
 
   ngOnInit(): void {
     this._WishlistService.get_logged_user_wishlist().subscribe((res)=>{
       this.res=res
-      // console.log(this.res.count);
       this._WishlistService.changeWishlistCounter(this.res.count);
-      // this._CounterService.wishlist_count.set(this.res.count)
-      // this.count_wishlist=this.res.count;
     })
     this._FlowbiteService.loadFlowbite(() => {});
     this._CartSerService.get_cart().subscribe({
       next:(res)=>{
         // console.log(res);
       this._CartSerService.changeCounter(res.numOfCartItems);
-
-        // this._CounterService.counter_send.next(res.numOfCartItems)
-        // this.Cart=res;
-        // this.count.next(this.Cart.numOfCartItems);
-        // if (this.Cart.numOfCartItems==0) {
-        //   this.exist_cart=false;
-        // }
-       
-    
       }
     })
-    
-    // this.count.subscribe((c)=>{
-    //   console.log(c);
 
-    //   this.count=c;
-    // })
-    //     this._CartComponent.count.subscribe((c)=>{
-    // this.count=c;
-    //     })
   }
+
   signOut() {
     this._AuthService.signOut();
   }

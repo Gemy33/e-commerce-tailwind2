@@ -35,6 +35,7 @@ this._CartSerService.get_cart().subscribe({
   next:(res)=>{
     // console.log(res);
     this.Cart=res;
+    this._CartSerService.changeCounter(res.numOfCartItems);
     // this.count.next(this.Cart.numOfCartItems);
     // if (this.Cart.numOfCartItems==0) {
     //   this.exist_cart=false;

@@ -13,7 +13,7 @@ import { WishlistService } from '../../core/services/wishlist.service';
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [FormsModule, RouterLink, SearchPipe],
+  imports: [FormsModule, RouterLink],
   templateUrl: './product.component.html',
   styleUrl: './product.component.scss',
 })
